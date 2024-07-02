@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test_fastapi</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div id="message"></div>
+     <p>
+        Введите 1 число: <br /> 
+        <input name="num_1_html" id="num_1_html" type="number" />
+    </p>
+     <p>
+        Введите 2 число: <br /> 
+        <input name="num_2_html" id="num_2_html" type="number" />
+    </p>
+    <button onclick="send()">Отправить</button>
+<script>
+    async function send(){
+ 
+        let num_1_html = parseInt(document.getElementById("num_1_html").value);
+        let num_2_html = parseInt(document.getElementById("num_2_html").value);
+ 
+        // отправляем запрос
+        const response = await fetch("/post_test_html", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    num_1: num_1_html,
+                    num_2: num_2_html
+                })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("message").textContent = data.message;
+            }
+            else
+                console.log(response);
+    }
+</script>
+</body>
+</html>
